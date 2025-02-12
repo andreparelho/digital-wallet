@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: digitalwallet
+    ports:
+      - "5432:5432"
+    networks:
+      - digitalwallet-net
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Volume persistente para os dados
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root", "-d", "digitalwallet"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+  app:
+    build: .
+    container_name: digital-wallet-app
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/digitalwallet
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123
+    networks:
+      - digitalwallet-net
+
+networks:
+  digitalwallet-net:
+
+volumes:
+  postgres-data:  # Definindo o volume persistente para o PostgreSQL
