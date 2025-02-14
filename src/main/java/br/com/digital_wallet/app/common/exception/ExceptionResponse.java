@@ -1,4 +1,4 @@
-package br.com.digital_wallet.app.user.handler;
+package br.com.digital_wallet.app.common.exception;
 
 import java.io.Serializable;
 import java.time.LocalDate;

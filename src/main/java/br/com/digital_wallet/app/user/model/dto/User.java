@@ -1,12 +1,10 @@
 package br.com.digital_wallet.app.user.model.dto;
 
-public record User(String id, String username, String password) {
+import br.com.digital_wallet.app.user.model.entity.UserEntity;
 
-    public static User createUser(String id, String username, String password) {
-        return new User(id, username, password);
-    }
+public record User(String id, String username, String email, String password) {
 
-    public static User updateUser(String id, String username, String password) {
-        return new User(id, username, password);
+    public static User getUser(UserEntity userEntity) {
+        return new User(userEntity.getId().toString(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getPassword());
     }
 }
